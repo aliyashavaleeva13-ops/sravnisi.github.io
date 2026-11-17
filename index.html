@@ -1,0 +1,592 @@
+<CodeBlock language="html" editable>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102b46">
+<title>МетрЭксперт — оценка средств измерений</title>
+
+<style>
+:root{--navy:#102b46;--blue:#1769aa;--cyan:#36b8c8;--ink:#183047;--muted:#647789;--bg:#f3f7fb;--line:#dce6ee;--green:#16845b;--red:#c44747;--shadow:0 16px 45px #14304817}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+a{text-decoration:none;color:inherit}
+.container{width:min(1160px,calc(100% - 40px));margin:auto}
+header{background:var(--navy);color:white;position:sticky;top:0;z-index:5;box-shadow:0 4px 22px #0b203533}
+.nav{height:74px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px}
+.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),#4d91dc);display:grid;place-items:center}
+.links{display:flex;align-items:center;gap:26px;font-size:14px;color:#dce8f2}
+.links .navbtn{background:#fff;color:var(--navy);padding:10px 16px;border-radius:10px;font-weight:700}
+.hero{background:radial-gradient(circle at 85% 20%,#2b668b,transparent 32%),linear-gradient(120deg,#102b46,#174b70);color:white;padding:78px 0 86px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:50px;align-items:center}
+.eyebrow,.kicker{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:#8ce0e6}
+.eyebrow:before{content:"";display:inline-block;width:24px;height:2px;background:var(--cyan);vertical-align:middle;margin-right:9px}
+h1{font-size:clamp(34px,5vw,54px);line-height:1.12;letter-spacing:-1.4px;margin:18px 0}
+.hero p{color:#d4e1eb;font-size:17px;max-width:620px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:11px;padding:13px 20px;font-weight:700;cursor:pointer}
+.primary{background:var(--cyan);color:#092b43}
+.light{background:#ffffff18;color:white;border:1px solid #ffffff40}
+.hero-note{font-size:12px;color:#b8ccda;margin-top:17px}
+.preview{background:#fff;color:var(--ink);padding:25px;border-radius:22px;box-shadow:0 25px 65px #061b2c55}
+.previewtop{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:18px}
+.pill{font-size:11px;color:var(--green);background:#e7f6ef;padding:6px 10px;border-radius:30px}
+.metric{background:#f3f7fb;border-radius:14px;padding:17px;margin:10px 0}
+.metric small,.twometrics small{display:block;color:var(--muted)}
+.metric strong{font-size:26px}
+.twometrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.twometrics div{padding:13px;border:1px solid var(--line);border-radius:12px}
+.twometrics b{font-size:17px}
+section{padding:72px 0}
+.head{text-align:center;max-width:720px;margin:0 auto 36px}
+.kicker{color:var(--blue)}
+h2{font-size:clamp(27px,3.4vw,38px);line-height:1.2;margin:10px 0}
+.head p{color:var(--muted);margin:0}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature,.step,.formcard,.result{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.feature{padding:24px}
+.ico{width:44px;height:44px;border-radius:13px;background:#eaf4fb;color:var(--blue);display:grid;place-items:center;font-size:21px;margin-bottom:14px}
+.feature h3{font-size:17px;margin:0 0 7px}
+.feature p,.step p{font-size:14px;color:var(--muted);margin:0}
+#calculator{background:#eaf1f7}
+.calcgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.8fr);gap:22px;align-items:start}
+.formcard{padding:27px}
+.group{padding-bottom:23px;margin-bottom:23px;border-bottom:1px solid var(--line)}
+.group:last-of-type{border:0;margin:0}
+.group h3{font-size:17px;margin:0 0 4px}
+.group>p{font-size:13px;color:var(--muted);margin:0 0 16px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:700;color:#455c70}
+input{width:100%;padding:12px;border:1px solid #cfdae4;border-radius:10px;font:inherit;font-size:14px;min-width:0}
+input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 3px #1769aa18}
+.formactions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.submit{background:var(--blue);color:white}
+.reset{background:#eaf4fb;color:var(--blue)}
+.result{padding:24px;position:sticky;top:94px}
+.result h3{margin:0}
+.sub{font-size:13px;color:var(--muted);margin:3px 0 17px}
+.placeholder{text-align:center;background:#f4f8fb;border-radius:13px;padding:24px 15px;color:var(--muted);font-size:13px}
+.placeholder span{display:block;font-size:28px}
+.resultbody{display:none}
+.resultbody.show{display:block}
+.status{border-radius:12px;padding:13px;margin-bottom:14px;font-weight:800;font-size:14px}
+.good{background:#e8f6ef;color:#126b4a}
+.bad{background:#fff0ef;color:#a33636}
+.line{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #edf1f4;font-size:13px}
+.line span{color:var(--muted)}
+.line b{text-align:right}
+.payback{margin:17px 0;padding:17px;background:#f0f6fb;border-radius:13px}
+.payback small{color:var(--muted)}
+.payback strong{display:block;font-size:29px;color:var(--blue)}
+.recommend{font-size:13px;margin-top:14px}
+.formula{font-size:11px;color:#8292a0;margin-top:14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.step{padding:21px}
+.stepno{font-size:12px;color:var(--cyan);font-weight:900}
+.step h3{font-size:15px;margin:8px 0}
+.banner{background:var(--navy);color:white;border-radius:20px;padding:29px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.banner h2{font-size:25px;margin:0 0 8px}
+.banner p{color:#c8d8e5;margin:0;font-size:14px}
+footer{background:#0b2034;color:#c2d0dc;padding:26px 0;font-size:12px}
+.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+
+@media(max-width:900px){
+.hero-grid{grid-template-columns:1fr .85fr;gap:25px}
+.calcgrid{grid-template-columns:1fr}
+.result{position:static}
+.steps{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+.container{width:calc(100% - 28px)}
+.nav{height:65px}
+.links{gap:12px;font-size:12px}
+.links a:not(.navbtn){display:none}
+.brand{font-size:16px}
+.hero{padding:55px 0}
+.hero-grid{grid-template-columns:1fr}
+.hero p{font-size:15px}
+section{padding:54px 0}
+.features{grid-template-columns:1fr}
+.formcard{padding:18px}
+.fields{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+.steps{grid-template-columns:1fr 1fr}
+.banner{align-items:flex-start;flex-direction:column;padding:23px}
+}
+@media(max-width:390px){
+.steps{grid-template-columns:1fr}
+.actions .btn{width:100%}
+}
+@media print{
+header,.hero,#advantages,#how,footer,.formcard,.banner{display:none!important}
+body,#calculator{background:white}
+.result{position:static;box-shadow:none;border:0}
+.resultbody{display:block!important}
+}
+</style>
+</head>
+
+<body>
+<header>
+<div class="container nav">
+<a class="brand" href="#home">
+<span class="mark">М</span>
+<span>МетрЭксперт</span>
+</a>
+<nav class="links">
+<a href="#advantages">Возможности</a>
+<a href="#how">Как работает</a>
+<a class="navbtn" href="#calculator">Оценить прибор</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="container hero-grid">
+<div>
+<div class="eyebrow">Обоснованный выбор оборудования</div>
+<h1>Оцените, насколько выгодно заменить средство измерений</h1>
+<p>Сравните технические характеристики старого и нового прибора, рассчитайте затраты на внедрение и оцените срок окупаемости.</p>
+<div class="actions">
+<a class="btn primary" href="#calculator">Перейти к оценке →</a>
+<a class="btn light" href="#how">Как это работает</a>
+</div>
+<div class="hero-note">Расчёт выполняется по введённым вами данным. Результат носит справочный характер.</div>
+</div>
+
+<div class="preview">
+<div class="previewtop">Результат оценки <span class="pill">Пример расчёта</span></div>
+<div class="metric">
+<small>Годовой экономический эффект</small>
+<strong>124 500 ₽</strong>
+</div>
+<div class="twometrics">
+<div>
+<small>Срок окупаемости</small>
+<b>1,8 года</b>
+</div>
+<div>
+<small>Техническая оценка</small>
+<b style="color:var(--green)">Соответствует</b>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="advantages">
+<div class="container">
+<div class="head">
+<div class="kicker">Возможности сайта</div>
+<h2>Техническая и экономическая оценка в одном месте</h2>
+<p>Проверьте соответствие прибора требованиям процесса и оцените финансовую целесообразность его внедрения.</p>
+</div>
+
+<div class="features">
+<article class="feature">
+<div class="ico">✓</div>
+<h3>Техническая пригодность</h3>
+<p>Сопоставление диапазона измерений и допустимой погрешности прибора с требованиями процесса.</p>
+</article>
+<article class="feature">
+<div class="ico">₽</div>
+<h3>Затраты и эффект</h3>
+<p>Учёт цены нового прибора, монтажа, настройки, обслуживания, поверки или калибровки и трудозатрат.</p>
+</article>
+<article class="feature">
+<div class="ico">↗</div>
+<h3>Оценка окупаемости</h3>
+<p>Расчёт годового эффекта, срока окупаемости и рекомендации по критерию предприятия.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section id="calculator">
+<div class="container">
+<div class="head">
+<div class="kicker">Онлайн-оценка</div>
+<h2>Введите исходные данные</h2>
+<p>Заполните поля. Если определённого расхода нет, укажите ноль.</p>
+</div>
+
+<div class="calcgrid">
+<form class="formcard" id="evaluationForm">
+
+<div class="group">
+<h3>01. Требования измерительного процесса</h3>
+<p>Параметры, которым должно соответствовать средство измерений.</p>
+<div class="fields">
+<div class="field">
+<label for="quantity">Измеряемая величина</label>
+<input id="quantity" placeholder="Например, температура">
+</div>
+<div class="field">
+<label for="unit">Единица измерения</label>
+<input id="unit" placeholder="Например, °C">
+</div>
+<div class="field">
+<label for="reqMin">Минимум диапазона</label>
+<input id="reqMin" type="number" step="any" value="0" required>
+</div>
+<div class="field">
+<label for="reqMax">Максимум диапазона</label>
+<input id="reqMax" type="number" step="any" value="100" required>
+</div>
+<div class="field">
+<label for="reqError">Допустимая погрешность (±)</label>
+<input id="reqError" type="number" min="0" step="any" value="1" required>
+</div>
+<div class="field">
+<label for="conditions">Условия эксплуатации</label>
+<input id="conditions" placeholder="Например, помещение">
+</div>
+</div>
+</div>
+
+<div class="group">
+<h3>02. Характеристики средств измерений</h3>
+<p>Технические параметры старого и предлагаемого нового прибора.</p>
+<div class="fields">
+<div class="field">
+<label for="oldName">Старый прибор — модель</label>
+<input id="oldName" placeholder="Модель или обозначение">
+</div>
+<div class="field">
+<label for="newName">Новый прибор — модель</label>
+<input id="newName" placeholder="Модель или обозначение">
+</div>
+<div class="field">
+<label for="oldMin">Старый: нижний предел</label>
+<input id="oldMin" type="number" step="any" value="0" required>
+</div>
+<div class="field">
+<label for="newMin">Новый: нижний предел</label>
+<input id="newMin" type="number" step="any" value="0" required>
+</div>
+<div class="field">
+<label for="oldMax">Старый: верхний предел</label>
+<input id="oldMax" type="number" step="any" value="100" required>
+</div>
+<div class="field">
+<label for="newMax">Новый: верхний предел</label>
+<input id="newMax" type="number" step="any" value="100" required>
+</div>
+<div class="field">
+<label for="oldError">Старый: погрешность (±)</label>
+<input id="oldError" type="number" min="0" step="any" value="1" required>
+</div>
+<div class="field">
+<label for="newError">Новый: погрешность (±)</label>
+<input id="newError" type="number" min="0" step="any" value="0.5" required>
+</div>
+<div class="field">
+<label for="oldClass">Старый: класс точности</label>
+<input id="oldClass" placeholder="При наличии">
+</div>
+<div class="field">
+<label for="newClass">Новый: класс точности</label>
+<input id="newClass" placeholder="При наличии">
+</div>
+<div class="field">
+<label for="oldResolution">Старый: разрешение</label>
+<input id="oldResolution" placeholder="Например, 0,1 °C">
+</div>
+<div class="field">
+<label for="newResolution">Новый: разрешение</label>
+<input id="newResolution" placeholder="Например, 0,01 °C">
+</div>
+<div class="field full">
+<label for="oldYear">Год приобретения старого прибора</label>
+<input id="oldYear" type="number" min="1900" max="2100" placeholder="Например, 2018">
+</div>
+</div>
+</div>
+
+<div class="group">
+<h3>03. Затраты и эксплуатация</h3>
+<p>Суммы указываются в рублях. Годовые расходы — за один год.</p>
+<div class="fields">
+<div class="field">
+<label for="price">Цена нового прибора, ₽</label>
+<input id="price" type="number" min="0" step="any" value="150000" required>
+</div>
+<div class="field">
+<label for="install">Монтаж, ₽</label>
+<input id="install" type="number" min="0" step="any" value="10000" required>
+</div>
+<div class="field">
+<label for="setup">Настройка и ввод в работу, ₽</label>
+<input id="setup" type="number" min="0" step="any" value="5000" required>
+</div>
+<div class="field">
+<label for="oldMaint">Обслуживание старого в год, ₽</label>
+<input id="oldMaint" type="number" min="0" step="any" value="18000" required>
+</div>
+<div class="field">
+<label for="newMaint">Обслуживание нового в год, ₽</label>
+<input id="newMaint" type="number" min="0" step="any" value="8000" required>
+</div>
+<div class="field">
+<label for="oldVerify">Поверка/калибровка старого в год, ₽</label>
+<input id="oldVerify" type="number" min="0" step="any" value="5000" required>
+</div>
+<div class="field">
+<label for="newVerify">Поверка/калибровка нового в год, ₽</label>
+<input id="newVerify" type="number" min="0" step="any" value="5000" required>
+</div>
+<div class="field">
+<label for="oldRepair">Ремонт старого в год, ₽</label>
+<input id="oldRepair" type="number" min="0" step="any" value="7000" required>
+</div>
+<div class="field">
+<label for="newRepair">Ремонт нового в год, ₽</label>
+<input id="newRepair" type="number" min="0" step="any" value="2000" required>
+</div>
+</div>
+</div>
+
+<div class="group">
+<h3>04. Трудозатраты и критерии</h3>
+<p>Время одного измерения — в минутах, стоимость рабочего часа — в рублях.</p>
+<div class="fields">
+<div class="field">
+<label for="count">Измерений в год, шт.</label>
+<input id="count" type="number" min="0" step="1" value="12000" required>
+</div>
+<div class="field">
+<label for="hourCost">Стоимость рабочего часа, ₽</label>
+<input id="hourCost" type="number" min="0" step="any" value="600" required>
+</div>
+<div class="field">
+<label for="oldTime">Время старым прибором, мин</label>
+<input id="oldTime" type="number" min="0" step="any" value="3" required>
+</div>
+<div class="field">
+<label for="newTime">Время новым прибором, мин</label>
+<input id="newTime" type="number" min="0" step="any" value="2" required>
+</div>
+<div class="field">
+<label for="life">Срок эксплуатации, лет</label>
+<input id="life" type="number" min="1" step="1" value="5" required>
+</div>
+<div class="field">
+<label for="limit">Допустимый срок окупаемости, лет</label>
+<input id="limit" type="number" min="0" step="any" value="3" required>
+</div>
+</div>
+</div>
+
+<div class="formactions">
+<button class="btn submit" type="submit">Рассчитать результат</button>
+<button class="btn reset" type="reset">Очистить форму</button>
+</div>
+</form>
+
+<aside class="result" aria-live="polite">
+<h3>Результаты оценки</h3>
+<p class="sub">Итоги появятся после расчёта.</p>
+
+<div class="placeholder" id="placeholder">
+<span>⌁</span>
+Заполните данные и нажмите «Рассчитать результат».
+</div>
+
+<div class="resultbody" id="resultbody">
+<div id="technicalStatus" class="status"></div>
+
+<div class="line">
+<span>Первоначальные затраты</span>
+<b id="capital">—</b>
+</div>
+<div class="line">
+<span>Годовые затраты старого</span>
+<b id="oldAnnual">—</b>
+</div>
+<div class="line">
+<span>Годовые затраты нового</span>
+<b id="newAnnual">—</b>
+</div>
+<div class="line">
+<span>Годовой экономический эффект</span>
+<b id="annualEffect">—</b>
+</div>
+
+<div class="payback">
+<small>Расчётный срок окупаемости</small>
+<strong id="payback">—</strong>
+<small id="paybackComment"></small>
+</div>
+
+<div class="line">
+<span>Эффект за срок эксплуатации</span>
+<b id="totalEffect">—</b>
+</div>
+
+<div class="recommend" id="recommendation"></div>
+
+<div class="formula">
+К = цена + монтаж + настройка. Годовые затраты = обслуживание + поверка/калибровка + ремонт + трудозатраты. Ток = К / Эг при Эг больше нуля.
+</div>
+
+<button class="btn reset" style="width:100%;margin-top:16px" type="button" onclick="window.print()">Распечатать результат</button>
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+<section id="how">
+<div class="container">
+<div class="head">
+<div class="kicker">Порядок работы</div>
+<h2>Четыре шага к обоснованному решению</h2>
+<p>Оценка проводится последовательно: от требований процесса до итоговой рекомендации.</p>
+</div>
+
+<div class="steps">
+<article class="step">
+<div class="stepno">ШАГ 01</div>
+<h3>Задайте требования</h3>
+<p>Укажите величину, диапазон и допустимую погрешность.</p>
+</article>
+<article class="step">
+<div class="stepno">ШАГ 02</div>
+<h3>Сравните приборы</h3>
+<p>Введите технические характеристики старого и нового средств измерений.</p>
+</article>
+<article class="step">
+<div class="stepno">ШАГ 03</div>
+<h3>Укажите расходы</h3>
+<p>Добавьте стоимость приобретения, внедрения и ежегодной эксплуатации.</p>
+</article>
+<article class="step">
+<div class="stepno">ШАГ 04</div>
+<h3>Получите результат</h3>
+<p>Ознакомьтесь с технической оценкой, эффектом, окупаемостью и рекомендацией.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section style="padding-top:0">
+<div class="container">
+<div class="banner">
+<div>
+<h2>Решение должно учитывать и технику, и экономику</h2>
+<p>Экономическая целесообразность рассматривается после проверки технического соответствия прибора требованиям процесса.</p>
+</div>
+<a class="btn primary" href="#calculator">Начать оценку →</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container foot">
+<span>© 2026 МетрЭксперт. Оценка средств измерений.</span>
+<span>Результаты расчёта справочные и зависят от корректности исходных данных.</span>
+</div>
+</footer>
+
+<script>
+const form=document.getElementById('evaluationForm'),
+$=id=>document.getElementById(id),
+v=id=>Number($(id).value||0),
+money=x=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:'RUB',maximumFractionDigits:0}).format(x),
+fmt=x=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(x);
+
+function check(min,max,err){
+return {
+range:v(min)<=v('reqMin')&&v(max)>=v('reqMax'),
+accuracy:v(err)<=v('reqError')
+};
+}
+
+form.addEventListener('submit',e=>{
+e.preventDefault();
+
+if(!form.reportValidity())return;
+
+if(v('reqMin')>v('reqMax')||v('oldMin')>v('oldMax')||v('newMin')>v('newMax')){
+alert('Проверьте диапазоны: минимум не должен превышать максимум.');
+return;
+}
+
+const oldT=check('oldMin','oldMax','oldError'),
+newT=check('newMin','newMax','newError');
+
+const oldLabor=v('count')*v('oldTime')*v('hourCost')/60,
+newLabor=v('count')*v('newTime')*v('hourCost')/60;
+
+const oldA=v('oldMaint')+v('oldVerify')+v('oldRepair')+oldLabor,
+newA=v('newMaint')+v('newVerify')+v('newRepair')+newLabor,
+capital=v('price')+v('install')+v('setup'),
+effect=oldA-newA,
+payback=effect>0?capital/effect:Infinity,
+total=effect*v('life')-capital,
+tech=newT.range&&newT.accuracy,
+econ=effect>0&&payback<=v('limit')&&total>0;
+
+$('placeholder').style.display='none';
+$('resultbody').classList.add('show');
+
+$('technicalStatus').className='status '+(tech?'good':'bad');
+$('technicalStatus').textContent=tech
+?'✓ Новый прибор соответствует заданным диапазону и погрешности.'
+:'✕ Новый прибор не соответствует одному или нескольким техническим требованиям.';
+
+$('capital').textContent=money(capital);
+$('oldAnnual').textContent=money(oldA);
+$('newAnnual').textContent=money(newA);
+$('annualEffect').textContent=money(effect);
+
+$('payback').textContent=Number.isFinite(payback)
+?fmt(payback)+' года'
+:'Не окупается';
+
+$('paybackComment').textContent=Number.isFinite(payback)
+?'Допустимый срок предприятия: '+fmt(v('limit'))+' года.'
+:'Годовой эффект не положительный.';
+
+$('totalEffect').textContent=money(total);
+
+let rec;
+
+if(!tech){
+let why=[];
+if(!newT.range)why.push('диапазон нового прибора не покрывает требования');
+if(!newT.accuracy)why.push('погрешность превышает допустимую');
+
+rec='Рекомендация: не внедрять выбранную модель до подбора прибора, соответствующего техническим требованиям ('+why.join('; ')+').';
+}else if(econ){
+rec='Рекомендация: внедрение нового прибора технически допустимо и экономически целесообразно по заданному критерию срока окупаемости.';
+}else if(effect<=0){
+rec='Рекомендация: при введённых данных годовая экономия отсутствует. Следует пересмотреть затраты или рассмотреть альтернативный прибор.';
+}else{
+rec='Рекомендация: технические требования выполняются, однако экономический критерий предприятия не достигнут. Проверьте срок окупаемости и общий эффект.';
+}
+
+$('recommendation').textContent=rec;
+$('resultbody').scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+
+form.addEventListener('reset',()=>{
+setTimeout(()=>{
+$('placeholder').style.display='block';
+$('resultbody').classList.remove('show');
+},0);
+});
+</script>
+
+</body>
+</html>
+</CodeBlock>
+
+Это полный код. В нём уже есть адаптация под телефон, форма ввода данных и автоматический расчёт результатов. Значения в полях сейчас демонстрационные — перед использованием замени их на реальные данные предприятия.
